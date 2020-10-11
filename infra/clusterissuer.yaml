@@ -18,8 +18,8 @@ spec:
       dns01:
         route53:
           region: eu-west-1
-          accessKeyID: AKIA3N4RR4SVBQEGC647  # Access Key of the user with dns Rights to do a DNS Challenge 
-          hostedZoneID: Z01189591XXU75SQ5ZNQN
+          accessKeyID: AKI**************  # Access Key of the user with dns Rights to do a DNS Challenge 
+          hostedZoneID: Z0**************
           secretAccessKeySecretRef:
             name: secret-key  # Secret Key of the user with dns Rights to do a DNS Challenge , Strored in this secret 
             key: cert-manager-secret-key
