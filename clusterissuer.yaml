@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-ClusterIssuer
+  namespace: traefik
+spec:
+  acme:
+    email: zouaoui.faycal.p@gmail.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: issuer-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - selector:
+            dnsZones:
+              - "fayit.lab" #My domain 
+      dns01:
+        route53:
+          region: eu-west-1
+          accessKeyID: 
+          hostedZoneID: Z08153861TVE9SBLP7CZP
+          secretAccessKeySecretRef:
+            name: 
+            key: 
