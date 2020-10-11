@@ -103,56 +103,6 @@ output "vpc" {
   value = aws_vpc.main_vpc.id
 }
 
-
-resource "aws_route53_zone" "primary" {
-  name = "fayit.lab"
-}
-
-
-resource "aws_iam_policy" "policy" {
-  name        = "cert_manager"
-  path        = "/"
-  description = "cert manager policy , TF Managed "
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "route53:CreateHostedZone",
-                "route53domains:*"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
-}
-EOF
-}
-
-
-resource "aws_iam_user" "faycal-eks-cert-manager-route53" {
-  name = "faycal-eks-cert-manager-route53"
-  path = "/system/"
-
-  tags = {
-    env = "lab"
-    application = "eks"
-  }
-}
-
-
-resource "aws_iam_access_key" "faycal_acces_key" {
-  user    = aws_iam_user.faycal-eks-cert-manager-route53.name
-}
-
-output "secret" {
-  value = aws_iam_access_key.faycal_acces_key.secret
-}
-
 resource "aws_eip" "nat" {
   vpc = true
 }
@@ -167,28 +117,3 @@ resource "aws_nat_gateway" "gw" {
     Name = "gw NAT"
   }
 }
-
-
-
-
-
-
-# resource "aws_route53_record" "eks" {
-#   zone_id = "${aws_route53_zone.primary.zone_id}"
-#   name    = "www.example.com"
-#   type    = "A"
-#   ttl     = "300"
-#   records = ["${aws_eip.lb.public_ip}"]
-# }
-
-# create eip
-# resource "aws_eip" "bar" {
-#     depends_on = ["aws_internet_gateway.igw"]
-# }
-# Creation OF NAT Gateway
-# resource "aws_nat_gateway" "ngw" {
-#     count               = length(var.availablity_zones)
-#     allocation_id = ""
-#     depends_on = ["aws_internet_gateway.igw"]
-#     subnet_id       = "${aws_subnet.public_subnet.*.id[count.index]}"
-# }

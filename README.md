@@ -10,6 +10,9 @@ Mise en place de la terminaison TLS sur Traefik v2 en utilisant cert-manager
 - Cluster kubernetes 
 
 - [**helm v3**](https://helm.sh/docs/intro/install/)
+  
+- [**kubens**](https://blog.zwindler.fr/2018/08/28/utiliser-kubectx-kubens-pour-changer-facilement-de-context-et-de-namespace-dans-kubernetes/) 
+    changer de namespace facilement 
 
 
 
@@ -37,13 +40,65 @@ Mise en place de la terminaison TLS sur Traefik v2 en utilisant cert-manager
     --version v1.0.2 \
     --set installCRDs=true
 ```
-
-
 ## Création du ClusterIssuer 
 
+Péréraquis : 
+
+- Utilisateur IAM 
+- Enregistrement Dns 
+
+
+### Création de l'utilisateur Iam pour le DNS Challenge 
+
+Afin de mettre en place le DNS Challenge nous avons besoin d'un utilisateur iam avec les droits suivants : 
 ```
-# kubectl apply -f clusterissuer.yaml
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "route53:GetChange",
+      "Resource": "arn:aws:route53:::change/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:ChangeResourceRecordSets",
+        "route53:ListResourceRecordSets"
+      ],
+      "Resource": "arn:aws:route53:::hostedzone/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "route53:ListHostedZonesByName",
+      "Resource": "*"
+    }
+  ]
+}
 ```
+
+L'access key, secret key sont utilisées dans le ClusterIssuer
+
+### Craetion de la secret kubernetes avec la secret access key 
+
+```
+# kubens cert-manager 
+# kubectl create secret generic secret-key  --from-literal='cert-manager-secret-key=#your secret key'
+```
+
+### Récupération de la hostedZone 
+
+```
+aws route53 list-hosted-zones | jq -r '.HostedZones[] | select(.Name == "fayit.lab.") | .Id' | awk -F "/" '{print $3}'
+```
+
+
+### Création du ClusterIssuer 
+
+```
+kubectl apply -f clusterissuer.yaml
+```
+
+
 
 # Dépoiement traefik v2 
 
@@ -51,6 +106,13 @@ Mise en place de la terminaison TLS sur Traefik v2 en utilisant cert-manager
 
 ```
 # kubectl create namespace traefik
+```
+
+
+## Création du certificat 
+
+```
+kubectl apply -f certificat.yaml
 ```
 
 ## Rajouter le dépot traefik au cache helm 

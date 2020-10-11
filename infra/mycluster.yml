@@ -4,13 +4,14 @@ kind: ClusterConfig
 metadata:
   name: mykubernetes
   region: eu-west-1
+  version: "1.17"
 
 vpc:
   subnets:
     private:
-      eu-north-1a: { id: subnet-02d5645d2f00d3ae4 }
-      eu-north-1b: { id: subnet-05e909d3576184dd3 }
-      eu-north-1c: { id: subnet-001d822e295350c67 }
+      eu-north-1a: { id: subnet-07f8ae59903ed1800 }
+      eu-north-1b: { id: subnet-0462586bfe62b1281 }
+      eu-north-1c: { id: subnet-0ed982c259aa2cfc7 }
 
 nodeGroups:
   - name: ng-1-workers
