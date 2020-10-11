@@ -1,0 +1,53 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: whoami
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-deployment
+  namespace: whoami
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+      - name: whoami-container
+        image: containous/whoami
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-service
+  namespace: whoami
+spec:
+  ports:
+  - name: web
+    port: 80   
+  selector:
+    app: whoami
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-ir
+  namespace: whoami
+spec:
+  entryPoints:
+          - websecure
+  routes:
+    - match: Host(`whoami.fayit.org`) 
+      kind: Rule
+      services:
+        - name: whoami-service
+          namespace: whoami 
+          port: 80
+  tls: {}

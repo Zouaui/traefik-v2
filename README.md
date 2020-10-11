@@ -126,24 +126,30 @@ kubectl apply -f certificat.yaml
 ## Deux cas d'usage 
 
 - Certificat porté par traefik 
-- Certificat porté par le pod applicatif (recommondée)  
+- Certificat porté par le pod applicatif (recommondé)  
 
+
+## création de la configmap avec la conf tls 
+
+``` 
+# kubectl create configmap configs --from-file=./conf.toml
+```
 
 ## Installer Traefik  
 
 ```
-# helm install traefik traefik/traefik --namespace=traefik 
+# helm install traefik traefik/traefik --values=./values.yaml --set="additionalArguments={--providers.file.filename=conf.toml}"
+```
+
+## Test
+Pour faire un test de cette configuration vous pouvez déployer l'appliaction whoami
+```
+# kubectl apply -f whomai.yaml
 ```
 
 
-
-
-
-
-
-
-
-
 ## sources 
+
 [Cert-manager](https://cert-manager.io/docs/installation/kubernetes/)
+
 [Trafik](https://doc.traefik.io/traefik/getting-started/install-traefik/)
