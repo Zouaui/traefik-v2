@@ -147,6 +147,8 @@ Pour faire un test de cette configuration vous pouvez déployer l'appliaction wh
 # kubectl apply -f whomai.yaml
 ```
 
+![alt text](https://github.com/Zouaui/traefik-v2/blob/main/infra/whoami.png)
+
 
 ## sources 
 
