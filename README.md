@@ -78,7 +78,7 @@ Afin de mettre en place le DNS Challenge nous avons besoin d'un utilisateur iam 
 
 L'access key, secret key sont utilisées dans le ClusterIssuer
 
-### Craetion de la secret kubernetes avec la secret access key 
+### Création de la secret kubernetes avec la secret access key 
 
 ```
 # kubens cert-manager 
