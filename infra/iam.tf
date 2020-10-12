@@ -38,10 +38,10 @@ resource "aws_iam_user_policy_attachment" "cert_manager_attach" {
 resource "aws_iam_user" "cert_manager_user" {
   name = "cert-manager"
   path = "/"
-//   tags = 
-//     {
-//       name = "certificate manager user"
-//     }
+  //   tags =
+  //     {
+  //       name = "certificate manager user"
+  //     }
 }
 
 resource "aws_iam_access_key" "cert_manager_user" {
@@ -54,9 +54,10 @@ resource "aws_iam_group" "cert_manager_group" {
 
 resource "aws_iam_user_group_membership" "cert_manager_group_membership" {
   user   = aws_iam_user.cert_manager_user.name
-  groups = [aws_iam_group.cert_manager_group.name]
+  groups = [
+    aws_iam_group.cert_manager_group.name]
 }
 
 output "access_key" {
-    value = aws_iam_access_key.cert_manager_user
+  value = aws_iam_access_key.cert_manager_user
 }

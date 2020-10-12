@@ -1,17 +1,20 @@
 variable "aws_region" {
-    description = "EC2 Region for the VPC"
-    default = "eu-west-1"
+  description = "EC2 Region for the VPC"
+  default     = "eu-west-1"
 }
 
 variable "vpc_cidr" {
-    description = "CIDR for the whole VPC"
-    default = "10.0.0.0/16"
+  description = "CIDR for the whole VPC"
+  default     = "10.0.0.0/16"
 }
 
 variable "availablity_zones" {
-    type = list(string)
-    default = ["eu-west-1a","eu-west-1b","eu-west-1c"]
-    }
+  type    = list(string)
+  default = [
+    "eu-west-1a",
+    "eu-west-1b",
+    "eu-west-1c"]
+}
 
 # variable "az" {
 #     description = "azs"
