@@ -16,7 +16,7 @@ Mise en place de la terminaison TLS sur Traefik v2 en utilisant cert-manager
 
 
 
-# Dépoiement de Cert-manager
+# Déploiment de Cert-manager
 
 ## Création du Namespace
 
@@ -126,7 +126,7 @@ kubectl apply -f certificat.yaml
 ## Deux cas d'usage 
 
 - Certificat porté par traefik 
-- Certificat porté par le pod applicatif (recommondé)  
+- Certificat porté par le pod applicatif (recommandé)  
 
 
 ## création de la configmap avec la conf tls 
