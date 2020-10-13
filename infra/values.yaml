@@ -1,7 +1,7 @@
-volumes: 
-- name: traefik
-  mountPath: "/certs"
-  type: secret
-- name: configs
-  mountPath: "/config"
-  type: configMap
+volumes:
+  - name: traefik
+    mountPath: "/certs"
+    type: secret
+  - name: configs
+    mountPath: "/config"
+    type: configMap
