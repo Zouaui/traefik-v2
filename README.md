@@ -7,12 +7,14 @@ Mise en place de la terminaison TLS sur Traefik v2 en utilisant cert-manager
 
 # Prérequis 
 
-- Cluster kubernetes 
-
+- Un cluster kubernetes 
+ 
 - [**helm v3**](https://helm.sh/docs/intro/install/)
   
 - [**kubens**](https://blog.zwindler.fr/2018/08/28/utiliser-kubectx-kubens-pour-changer-facilement-de-context-et-de-namespace-dans-kubernetes/) 
     changer de namespace facilement 
+
+- [**aws-cli**](https://docs.aws.amazon.com/fr_fr/cli/latest/userguide/cli-chap-install.html)
 
 
 
@@ -28,7 +30,7 @@ Mise en place de la terminaison TLS sur Traefik v2 en utilisant cert-manager
 
 ```
 # helm repo add jetstack https://charts.jetstack.io
-# helm tepo update 
+# helm repo update 
 ```
 
 ## Installer cert-manager
@@ -98,8 +100,6 @@ aws route53 list-hosted-zones | jq -r '.HostedZones[] | select(.Name == "fayit.l
 kubectl apply -f clusterissuer.yaml
 ```
 
-
-
 # Dépoiement traefik v2 
 
 ## Création du Namespace 
@@ -132,13 +132,14 @@ kubectl apply -f certificat.yaml
 ## création de la configmap avec la conf tls 
 
 ``` 
+# kubens traefik
 # kubectl create configmap configs --from-file=./conf.toml
 ```
 
 ## Installer Traefik  
 
 ```
-# helm install traefik traefik/traefik --values=./values.yaml --set="additionalArguments={--providers.file.filename=conf.toml}"
+# helm install traefik traefik/traefik traefik --values=./values.yaml --set="additionalArguments={--providers.file.filename=/config/conf.toml}"
 ```
 
 ## Test
